@@ -1,3 +1,5 @@
+print("kwin-rectangle installed")
+
 const divisions = {
   FOURTHS: {
     NW: 1,
@@ -50,6 +52,8 @@ const divisions = {
 const savedGeometries = []
 
 function manage(division) {
+  //print("manage(division: " + division + ")")
+
   if (!workspace.activeClient.normalWindow && !workspace.activeClient.utility) {
     return
   }
@@ -63,10 +67,10 @@ function manage(division) {
   const ip = readConfig('InnerPadding', 8)
   const op = readConfig('OuterPadding', 8)
 
-  let nw = geometry.width
-  let nh = geometry.height
-  let nx = geometry.x
-  let ny = geometry.y
+  var nw = geometry.width
+  var nh = geometry.height
+  var nx = geometry.x
+  var ny = geometry.y
 
   switch (division) {
     case divisions.FOURTHS.NW:
@@ -326,10 +330,21 @@ function restoreGeometry(client) {
   )
 }
 
-function shortcut(text, shortcut, placement) {
-  text = 'Rectangle: ' + text
-  shortcut = 'Ctrl+Meta+' + shortcut
-  registerShortcut(text, text, shortcut, () => manage(placement))
+function shortcut (text, shortcut, placement) {
+  text = 'Rectangle: ' + text;
+  shortcut = 'Ctrl+Meta+' + shortcut;
+  
+  // don't have javacript es6??
+  //let ff = () => manage(undefined);
+	
+	var ff = function() {
+		print("kwin-rectangle::: text: " + text + ", shortcut: " + shortcut + ", " + "placement: " + placement);
+		manage(placement)
+		
+	}
+
+  //registerShortcut(text, text, shortcut, () => manage(placement))
+  registerShortcut(text, text, shortcut, ff)
 }
 
 shortcut('Quarter: Top Left', 'U', divisions.FOURTHS.NW)
